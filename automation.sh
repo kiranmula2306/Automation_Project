@@ -37,3 +37,24 @@ tar cvf /tmp/${filename} access.log error.log
 
 cd /tmp/
 aws s3 cp /tmp/$filename s3://$s3_bucket
+sudo -i
+
+cd /var/www/html
+
+if [ ! -f $filenameWeb ]
+then
+	touch $filenameWeb
+		export log=`ls -ltr /tmp/mula-* | tail -1`
+		export logtype=`echo $filenamez | awk -F"-" {'print $2"-"$3'}`
+		export timestamp=`echo $filenamez | awk -F"-" {'print $4"-"$5'} | awk -F"." {'print $1'}`
+		export type=`echo $filenamez | awk -F"-" {'print $4"-"$5'} | awk -F"." {'print $2'}`
+		export size=`echo $log | awk {'print $5'}`
+		echo $logtype $timestamp $type $size >> inventory.html
+else
+	log=`ls -ltr /tmp/mula-* | tail -1`
+	export logtype=`echo $filenamez | awk -F"-" {'print $2"-"$3'}`
+	export timestamp=`echo $filenamez | awk -F"-" {'print $4"-"$5'} | awk -F"." {'print $1'}`
+	export type=`echo $filenamez | awk -F"-" {'print $4"-"$5'} | awk -F"." {'print $2'}`
+	export size=`echo $log | awk {'print $5'}`
+	echo $logtype $timestamp $type $size >> inventory.html
+fi
